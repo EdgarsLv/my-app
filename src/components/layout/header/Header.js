@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import Navigation from "./Navigation";
@@ -13,11 +12,7 @@ class Header extends Component {
         <Logo>
           <RiShoppingBag2Fill />
         </Logo>
-        <Actions
-          setCurrencies={this.props.setCurrencies}
-          count={this.props.count}
-          openMinicart={this.props.openMinicart}
-        />
+        <Actions openMinicart={this.props.openMinicart} />
       </HeaderContent>
     );
   }
@@ -30,14 +25,13 @@ const HeaderContent = styled.header`
   top: 0;
   width: calc(100% - 300px);
   height: 80px;
-  /* border-bottom: 2px solid black; */
   display: flex;
   justify-content: space-between;
   z-index: 1;
   background: white;
 `;
 const Logo = styled.i`
-  color: #5ece7b;
+  color: var(--accent-color);
   transform: scale(2.5);
   position: absolute;
   top: 50%;

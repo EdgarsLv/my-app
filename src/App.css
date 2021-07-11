@@ -3,6 +3,12 @@
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  --accent-color: #5ece7b;
+}
+body {
+  font-family: "Raleway", sans-serif;
+}
 .btn-prev {
   position: absolute;
   left: 0;
@@ -13,7 +19,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #5ece7b;
+  color: var(--accent-color);
 }
 .btn-next {
   position: absolute;
@@ -25,5 +31,5 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #5ece7b;
+  color: var(--accent-color);
 }

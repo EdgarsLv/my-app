@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { CURRENCIES } from "../../../graphql/Querys";
 import { FiShoppingCart } from "react-icons/fi";
-import { graphql } from "@apollo/client/react/hoc";
+import { connect } from "react-redux";
+import { fetchCurrencies } from "./../../../actions/currencyActions";
+import { setCurrencyValue } from "./../../../actions/currValueActions";
 
 class Actions extends Component {
+  componentDidMount() {
+    this.props.fetchCurrencies();
+  }
   render() {
-    const { loading, currencies } = this.props.data;
+    if (!this.props.currencies) return <p>loading...</p>;
 
-    if (loading) return <p>loading...</p>;
+    const { currencies } = this.props.currencies.data;
 
     const options = currencies.map((el, i) => {
       return (
@@ -22,16 +26,15 @@ class Actions extends Component {
       <Action>
         <select
           style={{ marginRight: "20px" }}
-          onChange={(e) => this.props.setCurrencies(e.currentTarget.value)}
+          onChange={(e) => this.props.setCurrencyValue(e.currentTarget.value)}
         >
           {options}
         </select>
         <Cart onClick={() => this.props.openMinicart()}>
           <FiShoppingCart style={{ fontSize: "20px" }} />
-          {this.props.count > 0 && (
+          {this.props.cartItems.length > 0 && (
             <div>
-              {/* {" "} */}
-              <p>{this.props.count}</p>
+              <p>{this.props.cartItems.length}</p>
             </div>
           )}
         </Cart>
@@ -39,7 +42,17 @@ class Actions extends Component {
     );
   }
 }
-export default graphql(CURRENCIES)(Actions);
+
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+    currencies: state.currencies.currencies,
+  }),
+  {
+    fetchCurrencies,
+    setCurrencyValue,
+  }
+)(Actions);
 
 const Action = styled.div`
   display: flex;

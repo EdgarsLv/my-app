@@ -14,6 +14,8 @@ class MiniCartItem extends Component {
       images,
       attributes,
       removeFromCart,
+      countIncrease,
+      countDecrease,
     } = this.props;
 
     const choice = attributes.map((el, i) => {
@@ -43,21 +45,19 @@ class MiniCartItem extends Component {
         </Properties>
         <CounterAndImage>
           <Counter>
-            <div onClick={() => this.props.countIncrease(product)}>
+            <div onClick={() => countIncrease(product)}>
               <AiOutlinePlus />
             </div>
             <div>{count}</div>
             <div>
               {count > 1 ? (
-                <AiOutlineMinus
-                  onClick={() => this.props.countDecrease(product)}
-                />
+                <AiOutlineMinus onClick={() => countDecrease(product)} />
               ) : (
                 <MdDelete onClick={() => removeFromCart(product)} />
               )}
             </div>
           </Counter>
-          <div style={{ width: "105px" }}>
+          <div style={{ width: "105px", height: "137px" }}>
             <img
               style={{ width: "105px", height: "100%" }}
               src={images[0]}

@@ -2,31 +2,31 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import CartItem from "./CartItem";
 import { setCurrencySign } from "../../functions/Functions";
+import { connect } from "react-redux";
+import {
+  countDecrease,
+  removeFromCart,
+  countIncrease,
+} from "../../../actions/cartActions";
 
 class Cart extends Component {
   render() {
-    const {
-      cartItems,
-      currencies,
-      removeFromCart,
-      countIncrease,
-      countDecrease,
-    } = this.props;
+    // if (!this.props.cartItems) return <div>loading</div>;
 
-    const items = cartItems.map((item, i) => {
+    const items = this.props.cartItems.map((item, i) => {
       return (
         <CartItem
           key={i}
           name={item.name}
-          currency={setCurrencySign(item.prices[currencies].currency)}
-          amount={item.prices[currencies].amount}
+          currency={setCurrencySign(item.prices[this.props.value].currency)}
+          amount={item.prices[this.props.value].amount}
           count={item.count}
           images={item.gallery}
           product={item}
           attributes={item.attributes}
-          removeFromCart={removeFromCart}
-          countIncrease={countIncrease}
-          countDecrease={countDecrease}
+          removeFromCart={this.props.removeFromCart}
+          countIncrease={this.props.countIncrease}
+          countDecrease={this.props.countDecrease}
         />
       );
     });
@@ -34,7 +34,7 @@ class Cart extends Component {
     return (
       <Container>
         <Title>
-          <h2>Cart {cartItems.length === 0 && "is empty"}</h2>
+          <h2>Cart {this.props.cartItems.length === 0 && "is empty"}</h2>
         </Title>
         {items}
       </Container>
@@ -42,7 +42,17 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+    value: state.value.value,
+  }),
+  {
+    removeFromCart,
+    countIncrease,
+    countDecrease,
+  }
+)(Cart);
 
 const Container = styled.div`
   min-height: calc(100vh - 160px);

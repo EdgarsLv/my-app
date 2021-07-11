@@ -3,24 +3,29 @@ import styled from "styled-components";
 import MiniCartItem from "./MiniCartItem";
 import { setCurrencySign } from "../../../functions/Functions";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import {
+  removeFromCart,
+  countDecrease,
+  countIncrease,
+} from "../../../../actions/cartActions";
 
 class MiniCart extends Component {
   render() {
-    const {
-      cartItems,
-      currencies,
-      removeFromCart,
-      countIncrease,
-      countDecrease,
-    } = this.props;
+    const { cartItems, value, removeFromCart, countIncrease, countDecrease } =
+      this.props;
 
+    let total = cartItems.reduce(
+      (a, c) => a + c.prices[value].amount * c.count,
+      0
+    );
     const items = cartItems.map((item, i) => {
       return (
         <MiniCartItem
           key={i}
           name={item.name}
-          currency={setCurrencySign(item.prices[currencies].currency)}
-          amount={item.prices[currencies].amount}
+          currency={setCurrencySign(item.prices[value].currency)}
+          amount={item.prices[value].amount}
           count={item.count}
           images={item.gallery}
           product={item}
@@ -48,11 +53,8 @@ class MiniCart extends Component {
             <span>Total</span>
             <span>
               {cartItems.length > 0 &&
-                setCurrencySign(cartItems[0].prices[currencies].currency)}
-              {cartItems.reduce(
-                (a, c) => a + c.prices[currencies].amount * c.count,
-                0
-              )}
+                setCurrencySign(cartItems[0].prices[value].currency)}
+              {total.toFixed(2)}
             </span>
           </Total>
           <ButtonsContainer>
@@ -65,7 +67,18 @@ class MiniCart extends Component {
   }
 }
 
-export default MiniCart;
+// export default MiniCart;
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+    value: state.value.value,
+  }),
+  {
+    removeFromCart,
+    countIncrease,
+    countDecrease,
+  }
+)(MiniCart);
 
 const MiniCartOverlay = styled.div`
   position: fixed;
@@ -111,7 +124,7 @@ const ButtonsContainer = styled.div`
       cursor: pointer;
     }
     :nth-child(2) {
-      background: #5ece7b;
+      background: var(--accent-color);
       text-transform: uppercase;
       text-decoration: none;
       color: white;
@@ -128,5 +141,8 @@ const Total = styled.div`
   justify-content: space-between;
   span {
     font-weight: 700;
+    :nth-child(1) {
+      font-family: "Roboto", sans-serif;
+    }
   }
 `;

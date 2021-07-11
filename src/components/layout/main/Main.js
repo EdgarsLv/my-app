@@ -4,26 +4,10 @@ import MiniCart from "../../pages/cart/miniCart/MiniCart";
 
 class Main extends Component {
   render() {
-    const {
-      cartItems,
-      currencies,
-      removeFromCart,
-      countIncrease,
-      countDecrease,
-      open,
-      openMinicart,
-    } = this.props;
+    const { open, openMinicart } = this.props;
     return (
       <MainLayout>
-        <MiniCart
-          cartItems={cartItems}
-          currencies={currencies}
-          removeFromCart={removeFromCart}
-          countIncrease={countIncrease}
-          countDecrease={countDecrease}
-          open={open}
-          openMinicart={openMinicart}
-        />
+        <MiniCart open={open} openMinicart={openMinicart} />
         {this.props.children}
       </MainLayout>
     );

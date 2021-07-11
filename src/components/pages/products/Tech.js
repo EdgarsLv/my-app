@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Spinner from "../../layout/Ui/Spinner/Spinner";
 import Product from "./Product";
-import { fetchClothes } from "./../../../actions/productActions";
+import { fetchTech } from "./../../../actions/productActions";
 import { connect } from "react-redux";
 import { addToCart } from "./../../../actions/cartActions";
 
-class Clothes extends Component {
+class Tech extends Component {
   componentDidMount() {
-    this.props.fetchClothes();
+    this.props.fetchTech();
   }
 
   render() {
@@ -33,10 +33,10 @@ class Clothes extends Component {
 export default connect(
   (state) => ({ products: state.products.items, value: state.value.value }),
   {
-    fetchClothes,
+    fetchTech,
     addToCart,
   }
-)(Clothes);
+)(Tech);
 
 const Container = styled.div`
   width: 100%;

@@ -6,7 +6,7 @@ import { setCurrencySign } from "../../functions/Functions";
 
 class Product extends Component {
   render() {
-    const { products, currencies } = this.props;
+    const { products, value } = this.props;
 
     return products.map(({ name, gallery, inStock, prices }, i) => {
       return (
@@ -17,7 +17,7 @@ class Product extends Component {
           <Link
             to={{
               pathname: `/description/${name}`,
-              state: { data: products[i], currencies: currencies },
+              state: { data: products[i] },
             }}
           >
             <Img src={gallery[0]} alt={name} />
@@ -27,8 +27,7 @@ class Product extends Component {
             <p>{name}</p>
 
             <p style={{ fontWeight: "600" }}>
-              {setCurrencySign(prices[currencies].currency)}{" "}
-              {prices[currencies].amount}
+              {setCurrencySign(prices[value].currency)} {prices[value].amount}
             </p>
           </Info>
         </Card>
@@ -80,7 +79,7 @@ const Cart = styled.div`
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #5ece7b;
+  background: var(--accent-color);
   display: flex;
   justify-content: center;
   align-items: center;

@@ -1,51 +1,61 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 
-const Attributes = (props) => {
-  const { name, inStock, currency, amount, description, attributes } = props;
+class Attributes extends Component {
+  render() {
+    const {
+      name,
+      inStock,
+      currency,
+      amount,
+      description,
+      attributes,
+      product,
+    } = this.props;
 
-  const size = attributes.map(({ items, type, name }, i) => {
+    const size = attributes.map(({ items, type, name }, i) => {
+      return (
+        <div key={i} style={{ marginBottom: "30px" }}>
+          <P>{name}:</P>
+          <SizeContainer>
+            {items.map(({ value }, j) => (
+              <Size color={value} key={j}>
+                {type === "swatch" ? "" : value}
+              </Size>
+            ))}
+          </SizeContainer>
+        </div>
+      );
+    });
+
     return (
-      <div key={i} style={{ marginBottom: "30px" }}>
-        <P>{name}:</P>
-        <SizeContainer>
-          {items.map(({ value }, j) => (
-            <Size color={value} key={j}>
-              {type === "swatch" ? "" : value}
-            </Size>
-          ))}
-        </SizeContainer>
-      </div>
+      <AttrContainer>
+        <Title>Brand name</Title>
+        <Name>{name}</Name>
+
+        {size}
+
+        <P>PRICE:</P>
+        <Price>
+          <p>
+            {currency} {amount}
+          </p>
+        </Price>
+        <AddCart
+          onClick={() => this.props.addToCart(product)}
+          style={{
+            background: inStock ? "" : "gray",
+            // pointerEvents: inStock ? "" : "none",
+          }}
+        >
+          ADD TO CART
+        </AddCart>
+
+        <Descr dangerouslySetInnerHTML={{ __html: description }} />
+      </AttrContainer>
     );
-  });
-
-  return (
-    <AttrContainer>
-      <Title>Brand name</Title>
-      <Name>{name}</Name>
-
-      {size}
-
-      <P>PRICE:</P>
-      <Price>
-        <p>
-          {currency} {amount}
-        </p>
-      </Price>
-      <AddCart
-        style={{
-          background: inStock ? "" : "gray",
-          // pointerEvents: inStock ? "" : "none",
-        }}
-      >
-        ADD TO CART
-      </AddCart>
-
-      <Descr dangerouslySetInnerHTML={{ __html: description }} />
-    </AttrContainer>
-  );
-};
-
+  }
+}
 export default Attributes;
 
 const AttrContainer = styled.div`
@@ -100,7 +110,7 @@ const AddCart = styled.button`
   border: none;
   padding: 16px;
   cursor: pointer;
-  background: #5ece7b;
+  background: var(--accent-color);
   font-weight: 600;
   color: white;
   font-size: 16px;
@@ -110,7 +120,7 @@ const Descr = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
   p {
-    font-family: Roboto, sans-serif;
+    font-family: "Roboto", sans-serif;
     line-height: 25.59px;
   }
 `;
@@ -118,5 +128,5 @@ const P = styled.p`
   font-size: 18px;
   font-weight: 700;
   line-height: 18px;
-  font-family: Roboto, sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
 `;

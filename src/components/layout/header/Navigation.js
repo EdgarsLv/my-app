@@ -5,7 +5,8 @@ import NavItem from "./NavItem";
 const Navigation = () => {
   return (
     <Nav>
-      <NavItem to="/" name="Tech" />
+      <NavItem to="/tech" name="Tech" />
+      <NavItem to="/clothes" name="Clothes" />
       <NavItem to="/cart" name="Cart" />
     </Nav>
   );
