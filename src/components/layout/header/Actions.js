@@ -4,6 +4,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { connect } from "react-redux";
 import { fetchCurrencies } from "./../../../actions/currencyActions";
 import { setCurrencyValue } from "./../../../actions/currValueActions";
+import { setCurrencySign } from "./../../functions/Functions";
 
 class Actions extends Component {
   componentDidMount() {
@@ -17,27 +18,30 @@ class Actions extends Component {
     const options = currencies.map((el, i) => {
       return (
         <option key={i} value={i}>
-          {el}
+          {setCurrencySign(el)} {el}
         </option>
       );
     });
 
     return (
       <Action>
-        <select
-          style={{ marginRight: "20px" }}
-          onChange={(e) => this.props.setCurrencyValue(e.currentTarget.value)}
-        >
-          {options}
-        </select>
-        <Cart onClick={() => this.props.openMinicart()}>
-          <FiShoppingCart style={{ fontSize: "20px" }} />
-          {this.props.cartItems.length > 0 && (
-            <div>
-              <p>{this.props.cartItems.length}</p>
-            </div>
-          )}
-        </Cart>
+        <div>
+          <select
+            style={{ marginRight: "20px" }}
+            onChange={(e) => this.props.setCurrencyValue(e.currentTarget.value)}
+          >
+            {options}
+          </select>
+
+          <Cart onClick={() => this.props.openMinicart()}>
+            <FiShoppingCart style={{ fontSize: "20px" }} />
+            {this.props.cartItems.length > 0 && (
+              <div>
+                <p>{this.props.cartItems.length}</p>
+              </div>
+            )}
+          </Cart>
+        </div>
       </Action>
     );
   }
@@ -55,13 +59,35 @@ export default connect(
 )(Actions);
 
 const Action = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  select {
-    border: none;
-    :focus {
+  div {
+    position: relative;
+    :nth-child(1)::after {
+      content: "ᐯ";
+      position: absolute;
+      top: 7px;
+      right: 30px;
+      font-size: 8px;
+    }
+    select {
+      position: absolute;
+      right: -40px;
+      border: none;
+      appearance: none;
       outline: none;
+      box-shadow: none;
+      padding: 5px 60px 10px 20px;
+      cursor: pointer;
+      :focus {
+        outline: none;
+      }
+
+      option {
+        font-size: 18px;
+      }
     }
   }
 `;

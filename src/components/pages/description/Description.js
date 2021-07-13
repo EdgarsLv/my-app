@@ -8,6 +8,12 @@ import { addToCart } from "../../../actions/cartActions";
 
 class Description extends Component {
   render() {
+    // if (!this.props.products) return <div>loading...</div>;
+
+    // const product = this.props.products.data.category.products.find(
+    //   (x) => (x.name = this.props.match.params.name)
+    // );
+
     const { name, gallery, inStock, attributes, description, prices } =
       this.props.location.state.data;
 
@@ -34,7 +40,6 @@ class Description extends Component {
 export default connect(
   (state) => ({
     cartItems: state.cart.cartItems,
-    // currencies: state.currencies.currencies,
     // products: state.products.items,
     value: state.value.value,
   }),

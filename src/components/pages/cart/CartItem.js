@@ -163,6 +163,7 @@ const Selected = styled.div`
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
+  font-family: "Source Sans Pro", sans-serif;
 `;
 const Count = styled.div`
   width: 45px;

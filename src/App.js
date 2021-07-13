@@ -24,10 +24,10 @@ class App extends Component {
       <Main open={this.state.show} openMinicart={this.openMinicart}>
         <Header openMinicart={this.openMinicart} />
         <Switch>
-          <Route path="/tech" render={() => <Tech />} />
-          <Route path="/clothes" render={() => <Clothes />} />
-          <Route path="/cart" render={() => <Cart />} />
-          <Route path="/description/:name" component={Description} />
+          <Route path="/tech" exact render={() => <Tech />} />
+          <Route path="/clothes" exact render={() => <Clothes />} />
+          <Route path="/cart" exact render={() => <Cart />} />
+          <Route path="/:name/description/:name" component={Description} />
         </Switch>
       </Main>
     );

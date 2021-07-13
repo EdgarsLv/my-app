@@ -24,6 +24,7 @@ class Tech extends Component {
           value={this.props.value}
           products={products}
           addToCart={this.props.addToCart}
+          category={name}
         />
       </Container>
     );

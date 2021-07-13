@@ -18,7 +18,7 @@ class Attributes extends Component {
         <div key={i} style={{ marginBottom: "30px" }}>
           <P>{name}:</P>
           <SizeContainer>
-            {items.map(({ value }, j) => (
+            {items.map(({ value, id }, j) => (
               <Size color={value} key={j}>
                 {type === "swatch" ? "" : value}
               </Size>
@@ -42,7 +42,9 @@ class Attributes extends Component {
           </p>
         </Price>
         <AddCart
-          onClick={() => this.props.addToCart(product)}
+          onClick={() => {
+            this.props.addToCart(product);
+          }}
           style={{
             background: inStock ? "" : "gray",
             // pointerEvents: inStock ? "" : "none",
@@ -94,6 +96,7 @@ const Size = styled.div`
   align-items: center;
   cursor: pointer;
   background: ${(props) => props.color};
+  font-family: "Source Sans Pro", sans-serif;
 `;
 const Price = styled.div`
   margin-top: 20px;

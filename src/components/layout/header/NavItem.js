@@ -8,7 +8,10 @@ const NavItem = (props) => {
       <Link
         to={props.to}
         exact
-        activeStyle={{ color: "#5ece7b", borderBottom: "2px solid #5ece7b" }}
+        activeStyle={{
+          color: "var(--accent-color)",
+          borderBottom: "2px solid var(--accent-color)",
+        }}
       >
         {props.name}
       </Link>

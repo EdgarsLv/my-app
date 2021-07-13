@@ -67,7 +67,6 @@ class MiniCart extends Component {
   }
 }
 
-// export default MiniCart;
 export default connect(
   (state) => ({
     cartItems: state.cart.cartItems,
@@ -81,11 +80,12 @@ export default connect(
 )(MiniCart);
 
 const MiniCartOverlay = styled.div`
-  position: fixed;
+  position: absolute;
   top: 80px;
   left: 0;
+  bottom: 0;
   width: 100%;
-  min-height: calc(100vh - 80px);
+  /* min-height: calc(100vh - 80px); */
   background: rgba(57, 55, 72, 0.22);
   z-index: 2;
   display: ${({ open }) => (!open ? "none" : "block")};

@@ -21,7 +21,7 @@ class Header extends Component {
 export default Header;
 
 const HeaderContent = styled.header`
-  position: fixed;
+  position: absolute;
   top: 0;
   width: calc(100% - 300px);
   height: 80px;

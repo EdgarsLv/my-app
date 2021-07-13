@@ -136,6 +136,7 @@ const Selected = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "Source Sans Pro", sans-serif;
   }
 `;
 

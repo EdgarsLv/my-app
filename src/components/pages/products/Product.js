@@ -5,18 +5,43 @@ import { FiShoppingCart } from "react-icons/fi";
 import { setCurrencySign } from "../../functions/Functions";
 
 class Product extends Component {
+  handleTooltip = (x) => {
+    this.setState(() => (x.inCart = true));
+  };
+  onHover = (x) => {
+    this.setState(() => (x.hover = true));
+  };
+  offHover = (x) => {
+    this.setState(() => (x.hover = false));
+    this.setState(() => (x.inCart = false));
+  };
+
   render() {
-    const { products, value } = this.props;
+    const { products, value, category } = this.props;
 
     return products.map(({ name, gallery, inStock, prices }, i) => {
       return (
-        <Card key={i}>
-          <Cart onClick={() => this.props.addToCart(products[i])}>
+        <Card
+          onMouseEnter={() => this.onHover(products[i])}
+          onMouseLeave={() => this.offHover(products[i])}
+          key={i}
+        >
+          <Tooltip inCart={products[i].inCart}>
+            <p>{name}</p>
+            <p>Added To Cart! </p>
+          </Tooltip>
+          <Cart
+            onClick={() => {
+              this.props.addToCart(products[i]);
+              this.handleTooltip(products[i]);
+            }}
+            hover={products[i].hover}
+          >
             <FiShoppingCart />
           </Cart>
           <Link
             to={{
-              pathname: `/description/${name}`,
+              pathname: `/${category}/description/${name}`,
               state: { data: products[i] },
             }}
           >
@@ -52,7 +77,7 @@ const Card = styled.div`
 const Img = styled.img`
   width: 354px;
   height: 330px;
-  padding: 16px;
+  /* padding: 16px; */
 `;
 const Info = styled.div`
   margin: 8px 16px 16px 16px;
@@ -83,9 +108,9 @@ const Cart = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: ${({ hover }) => (hover ? 1 : 0.5)};
+  opacity: ${({ hover }) => (hover ? 1 : 0)};
   cursor: pointer;
-  transition: 0.3s ease-in;
+  transition: 0.2s ease-in;
 
   :hover {
     opacity: 1;
@@ -95,4 +120,17 @@ const Cart = styled.div`
     color: white;
     transform: scale(1.4);
   }
+`;
+const Tooltip = styled.div`
+  position: absolute;
+  bottom: 35%;
+  right: 10%;
+  border-radius: 10px;
+  padding: 10px;
+  background: white;
+  transition: 0.3s ease-in;
+  opacity: ${({ inCart }) => (inCart ? 1 : 0)};
+  font-size: 12px;
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 1);
+  font-family: "Roboto", sans-serif;
 `;
