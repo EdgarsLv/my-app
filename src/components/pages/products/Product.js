@@ -3,10 +3,21 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { setCurrencySign } from "../../functions/Functions";
+import { connect } from "react-redux";
 
 class Product extends Component {
+  state = {
+    times: 0,
+  };
   handleTooltip = (x) => {
     this.setState(() => (x.inCart = true));
+
+    const counter = this.props.cartItems.find((item) => item.name === x.name);
+    if (!counter) {
+      this.setState({ times: 1 });
+    } else {
+      this.setState({ times: counter.count });
+    }
   };
   onHover = (x) => {
     this.setState(() => (x.hover = true));
@@ -28,7 +39,19 @@ class Product extends Component {
         >
           <Tooltip inCart={products[i].inCart}>
             <p>{name}</p>
-            <p>Added To Cart! </p>
+            <p>
+              Added To Cart{" "}
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: "var(--accent-color)",
+                }}
+              >
+                {this.state.times}
+              </span>{" "}
+              times! !{" "}
+            </p>
           </Tooltip>
           <Cart
             onClick={() => {
@@ -61,7 +84,17 @@ class Product extends Component {
   }
 }
 
-export default Product;
+// export default Product;
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+    // products: state.products.items,
+    // value: state.value.value,
+  }),
+  {
+    // addToCart,
+  }
+)(Product);
 
 const Card = styled.div`
   width: 386px;
