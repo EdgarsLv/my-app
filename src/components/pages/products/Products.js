@@ -2,17 +2,22 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Spinner from "../../layout/Ui/Spinner/Spinner";
 import Product from "./Product";
-import { fetchClothes } from "./../../../actions/productActions";
+import { fetchProducts } from "./../../../actions/productActions";
 import { connect } from "react-redux";
-import { addToCart } from "./../../../actions/cartActions";
 
-class Clothes extends Component {
+class Products extends Component {
   componentDidMount() {
-    this.props.fetchClothes();
+    this.props.fetchProducts(this.props.product);
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.product !== prevProps.product) {
+      this.props.fetchProducts(this.props.product);
+    }
   }
 
   render() {
     if (!this.props.products) return <Spinner />;
+
     const { name, products } = this.props.products.data.category;
 
     return (
@@ -20,12 +25,7 @@ class Clothes extends Component {
         <Title>
           <h2>{name}</h2>
         </Title>
-        <Product
-          value={this.props.value}
-          products={products}
-          addToCart={this.props.addToCart}
-          category={name}
-        />
+        <Product value={this.props.value} products={products} category={name} />
       </Container>
     );
   }
@@ -34,10 +34,9 @@ class Clothes extends Component {
 export default connect(
   (state) => ({ products: state.products.items, value: state.value.value }),
   {
-    fetchClothes,
-    addToCart,
+    fetchProducts,
   }
-)(Clothes);
+)(Products);
 
 const Container = styled.div`
   width: 100%;

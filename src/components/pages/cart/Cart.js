@@ -11,8 +11,6 @@ import {
 
 class Cart extends Component {
   render() {
-    // if (!this.props.cartItems) return <div>loading</div>;
-
     const items = this.props.cartItems.map((item, i) => {
       return (
         <CartItem

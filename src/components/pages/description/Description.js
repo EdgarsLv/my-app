@@ -2,55 +2,23 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import Gallery from "./Gallery";
 import Attributes from "./Attributes";
-import { setCurrencySign } from "../../functions/Functions";
-import { connect } from "react-redux";
-import { addToCart } from "../../../actions/cartActions";
 
 class Description extends Component {
   render() {
-    // if (!this.props.products) return <div>loading...</div>;
-
-    // const product = this.props.products.data.category.products.find(
-    //   (x) => (x.name = this.props.match.params.name)
-    // );
-
-    const { name, gallery, inStock, attributes, description, prices } =
-      this.props.location.state.data;
-
-    if (!this.props.cartItems) return <div>loading</div>;
+    const { gallery, inStock } = this.props.location.state.data;
 
     return (
       <Container>
         <Gallery gallery={gallery} inStock={inStock} />
-        <Attributes
-          name={name}
-          inStock={inStock}
-          currency={setCurrencySign(prices[this.props.value].currency)}
-          amount={prices[this.props.value].amount}
-          description={description}
-          attributes={attributes}
-          product={this.props.location.state.data}
-          addToCart={this.props.addToCart}
-        />
+        <Attributes product={this.props.location.state.data} />
       </Container>
     );
   }
 }
-
-export default connect(
-  (state) => ({
-    cartItems: state.cart.cartItems,
-    // products: state.products.items,
-    value: state.value.value,
-  }),
-  {
-    addToCart,
-  }
-)(Description);
+export default Description;
 
 const Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 160px);
   display: flex;
-  /* flex-wrap: wrap; */
 `;

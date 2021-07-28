@@ -1,37 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { MdDelete } from "react-icons/md";
-import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
+import Counter from "./Counter";
+import Image from "./Image";
+import Attributes from "./Attributes";
 
 class MiniCartItem extends Component {
   render() {
-    const {
-      name,
-      currency,
-      amount,
-      count,
-      product,
-      images,
-      attributes,
-      removeFromCart,
-      countIncrease,
-      countDecrease,
-    } = this.props;
+    const { name, currency, amount, count, product, images, attributes } =
+      this.props;
 
-    const choice = attributes.map((el, i) => {
-      return (
-        <Selected key={i}>
-          <p>{el.name}</p>
-          <div
-            style={
-              el.name === "Color" ? { background: `${el.items[0].value}` } : {}
-            }
-          >
-            {el.name === "Color" ? "" : el.items[0].value}
-          </div>
-        </Selected>
-      );
-    });
     return (
       <CartItem>
         <Properties>
@@ -41,29 +18,11 @@ class MiniCartItem extends Component {
             {currency}
             {amount}
           </p>
-          <Choice>{choice}</Choice>
+          <Attributes attributes={attributes} />
         </Properties>
         <CounterAndImage>
-          <Counter>
-            <div onClick={() => countIncrease(product)}>
-              <AiOutlinePlus />
-            </div>
-            <div>{count}</div>
-            <div>
-              {count > 1 ? (
-                <AiOutlineMinus onClick={() => countDecrease(product)} />
-              ) : (
-                <MdDelete onClick={() => removeFromCart(product)} />
-              )}
-            </div>
-          </Counter>
-          <div style={{ width: "105px", height: "137px" }}>
-            <img
-              style={{ width: "105px", height: "100%" }}
-              src={images[0]}
-              alt={name}
-            />
-          </div>
+          <Counter count={count} product={product} />
+          <Image image={images[0]} alt={name} />
         </CounterAndImage>
       </CartItem>
     );
@@ -75,30 +34,12 @@ export default MiniCartItem;
 const CartItem = styled.div`
   position: relative;
   min-height: 137px;
+  min-width: calc(325px - 32px);
   display: flex;
   justify-content: space-between;
   margin-bottom: 42px;
 `;
 
-const Counter = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin: 0 10px;
-  div {
-    border: 1px solid black;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    :nth-of-type(2) {
-      border: none;
-      cursor: inherit;
-    }
-  }
-`;
 const Properties = styled.div`
   position: relative;
   width: 100%;
@@ -113,32 +54,36 @@ const Properties = styled.div`
     }
   }
 `;
-const Choice = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  margin-top: 17px;
-`;
-const Selected = styled.div`
-  margin-right: 5px;
-  p {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 5px;
-  }
-  div {
-    display: flex;
-    font-size: 14px;
-    text-transform: uppercase;
-    min-width: 24px;
-    height: 24px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Source Sans Pro", sans-serif;
-  }
-`;
+// const Choice = styled.div`
+//   display: flex;
+//   justify-content: flex-start;
+//   align-items: flex-end;
+//   margin-top: 32px;
+// `;
+// const Selected = styled.div`
+//   margin-right: 5px;
+
+//   p {
+//     font-size: 10px;
+//     font-weight: 600;
+//     line-height: 5px;
+//   }
+//   div {
+//     display: flex;
+//     font-size: 14px;
+//     text-transform: uppercase;
+
+//     min-width: 24px;
+
+//     padding: 0 5px;
+//     height: 24px;
+//     border: 1px solid black;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     font-family: "Source Sans Pro", sans-serif;
+//   }
+// `;
 
 const CounterAndImage = styled.div`
   display: flex;

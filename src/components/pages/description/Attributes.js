@@ -1,64 +1,75 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { addToCart } from "./../../../actions/cartActions";
+import Properties from "./Properties";
+import Price from "./Price";
 
 class Attributes extends Component {
-  render() {
-    const {
-      name,
-      inStock,
-      currency,
-      amount,
-      description,
-      attributes,
-      product,
-    } = this.props;
+  state = {
+    product: this.props.product,
+    selected: [],
+    valid: false,
+  };
 
-    const size = attributes.map(({ items, type, name }, i) => {
-      return (
-        <div key={i} style={{ marginBottom: "30px" }}>
-          <P>{name}:</P>
-          <SizeContainer>
-            {items.map(({ value, id }, j) => (
-              <Size color={value} key={j}>
-                {type === "swatch" ? "" : value}
-              </Size>
-            ))}
-          </SizeContainer>
-        </div>
-      );
-    });
+  selectAttributes = (item, i) => {
+    const product = JSON.parse(JSON.stringify(this.state.product));
+    const selected = [...this.state.selected];
+
+    selected[i] = item.id;
+
+    product.name = this.props.product.name + " " + selected.join(" ");
+    product.attributes[i].items = [item];
+
+    if (product.attributes.length === selected.length) {
+      this.setState({ valid: true });
+    }
+
+    this.setState({ selected: selected });
+    this.setState({ product: product });
+  };
+
+  addProductToCart = () => {
+    if (this.state.valid) {
+      this.props.addToCart(this.state.product);
+      alert(`${this.state.product.name} added to cart!`);
+    } else {
+      alert("Select all attributes!");
+    }
+  };
+
+  render() {
+    const { product } = this.props;
+    const { description, attributes, inStock, name, prices } = product;
 
     return (
       <AttrContainer>
         <Title>Brand name</Title>
         <Name>{name}</Name>
+        <Properties
+          attributes={attributes}
+          selectAttributes={this.selectAttributes}
+          selected={this.state.selected}
+        />
 
-        {size}
-
-        <P>PRICE:</P>
-        <Price>
-          <p>
-            {currency} {amount}
-          </p>
-        </Price>
-        <AddCart
-          onClick={() => {
-            this.props.addToCart(product);
-          }}
-          style={{
-            background: inStock ? "" : "gray",
-            // pointerEvents: inStock ? "" : "none",
-          }}
-        >
+        <Price prices={prices} value={this.props.value} />
+        <AddCart onClick={() => this.addProductToCart()} inStock={inStock}>
           ADD TO CART
         </AddCart>
-
         <Descr dangerouslySetInnerHTML={{ __html: description }} />
       </AttrContainer>
     );
   }
 }
-export default Attributes;
+
+export default connect(
+  (state) => ({
+    value: state.value.value,
+  }),
+  {
+    addToCart,
+  }
+)(Attributes);
 
 const AttrContainer = styled.div`
   margin-left: 100px;
@@ -78,42 +89,14 @@ const Name = styled.p`
   margin-bottom: 43px;
 `;
 
-const SizeContainer = styled.div`
-  /* background: gray; */
-  width: 100%;
-  margin-top: 8px;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-`;
-const Size = styled.div`
-  display: inline-block;
-  border: 1px solid black;
-  width: 63px;
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background: ${(props) => props.color};
-  font-family: "Source Sans Pro", sans-serif;
-`;
-const Price = styled.div`
-  margin-top: 20px;
-  p {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 18px;
-  }
-`;
-
 const AddCart = styled.button`
   width: 100%;
   margin-top: 35px;
   border: none;
   padding: 16px;
   cursor: pointer;
-  background: var(--accent-color);
+  background: ${({ inStock }) => (inStock ? "var(--accent-color)" : "gray")};
+  pointer-events: ${({ inStock }) => (inStock ? "" : "none")};
   font-weight: 600;
   color: white;
   font-size: 16px;
@@ -126,10 +109,4 @@ const Descr = styled.div`
     font-family: "Roboto", sans-serif;
     line-height: 25.59px;
   }
-`;
-const P = styled.p`
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 18px;
-  font-family: "Roboto Condensed", sans-serif;
 `;

@@ -1,29 +1,44 @@
-import { FETCH_CLOTHES, FETCH_TECH } from "../types";
-import { techProducts, clothesProducts } from "./../graphql/Querys";
+import { FETCH_PRODUCTS } from "../types";
 
-export const fetchClothes = () => async (dispatch) => {
+export const fetchProducts = (props) => async (dispatch) => {
   const res = await fetch("http://localhost:4000/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(clothesProducts),
+    body: JSON.stringify({
+      query: `
+      query ($title: String!){
+      category(input: {title: $title}) {
+        name
+        products {
+          name
+          inStock
+          description
+          category
+          gallery
+          prices {          
+            currency
+            amount
+          }
+          attributes {
+            name
+            type
+            id
+            items {
+              value
+              id
+            }
+          }
+        }
+      }
+    }
+    `,
+      variables: { title: props },
+    }),
   });
-  const data = await res.json();
 
-  dispatch({
-    type: FETCH_CLOTHES,
-    payload: data,
-  });
-};
-
-export const fetchTech = () => async (dispatch) => {
-  const res = await fetch("http://localhost:4000/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(techProducts),
-  });
   const data = await res.json();
   dispatch({
-    type: FETCH_TECH,
+    type: FETCH_PRODUCTS,
     payload: data,
   });
 };

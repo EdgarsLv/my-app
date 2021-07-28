@@ -1,41 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import MiniCartItem from "./MiniCartItem";
-import { setCurrencySign } from "../../../functions/Functions";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import {
-  removeFromCart,
-  countDecrease,
-  countIncrease,
-} from "../../../../actions/cartActions";
+import Items from "./Items";
+import TotalSum from "./TotalSum";
 
 class MiniCart extends Component {
   render() {
-    const { cartItems, value, removeFromCart, countIncrease, countDecrease } =
-      this.props;
-
-    let total = cartItems.reduce(
-      (a, c) => a + c.prices[value].amount * c.count,
-      0
-    );
-    const items = cartItems.map((item, i) => {
-      return (
-        <MiniCartItem
-          key={i}
-          name={item.name}
-          currency={setCurrencySign(item.prices[value].currency)}
-          amount={item.prices[value].amount}
-          count={item.count}
-          images={item.gallery}
-          product={item}
-          attributes={item.attributes}
-          removeFromCart={removeFromCart}
-          countIncrease={countIncrease}
-          countDecrease={countDecrease}
-        />
-      );
-    });
+    const { cartItems, value } = this.props;
 
     return (
       <MiniCartOverlay
@@ -47,19 +20,14 @@ class MiniCart extends Component {
             <span>My Bag,</span> <span> {cartItems.length} items</span>
           </BagTitle>
 
-          {items}
+          <Items />
+          <TotalSum cartItems={cartItems} value={value} />
 
-          <Total>
-            <span>Total</span>
-            <span>
-              {cartItems.length > 0 &&
-                setCurrencySign(cartItems[0].prices[value].currency)}
-              {total.toFixed(2)}
-            </span>
-          </Total>
           <ButtonsContainer>
-            <Link to="/cart">view bag</Link>
-            <Link to="#">checkout</Link>
+            <Link onClick={() => this.props.openMinicart()} to="/cart">
+              view bag
+            </Link>
+            <Link to="/cart">checkout</Link>
           </ButtonsContainer>
         </MinCart>
       </MiniCartOverlay>
@@ -67,17 +35,10 @@ class MiniCart extends Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    cartItems: state.cart.cartItems,
-    value: state.value.value,
-  }),
-  {
-    removeFromCart,
-    countIncrease,
-    countDecrease,
-  }
-)(MiniCart);
+export default connect((state) => ({
+  cartItems: state.cart.cartItems,
+  value: state.value.value,
+}))(MiniCart);
 
 const MiniCartOverlay = styled.div`
   position: absolute;
@@ -85,7 +46,6 @@ const MiniCartOverlay = styled.div`
   left: 0;
   bottom: 0;
   width: 100%;
-  /* min-height: calc(100vh - 80px); */
   background: rgba(57, 55, 72, 0.22);
   z-index: 2;
   display: ${({ open }) => (!open ? "none" : "block")};
@@ -133,16 +93,6 @@ const ButtonsContainer = styled.div`
       font-size: 14px;
       border: none;
       cursor: pointer;
-    }
-  }
-`;
-const Total = styled.div`
-  display: flex;
-  justify-content: space-between;
-  span {
-    font-weight: 700;
-    :nth-child(1) {
-      font-family: "Roboto", sans-serif;
     }
   }
 `;
