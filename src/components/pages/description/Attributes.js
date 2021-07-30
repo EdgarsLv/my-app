@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { addToCart } from "./../../../actions/cartActions";
 import Properties from "./Properties";
 import Price from "./Price";
+import { Markup } from "interweave";
 
 class Attributes extends Component {
   state = {
@@ -56,7 +57,10 @@ class Attributes extends Component {
         <AddCart onClick={() => this.addProductToCart()} inStock={inStock}>
           ADD TO CART
         </AddCart>
-        <Descr dangerouslySetInnerHTML={{ __html: description }} />
+
+        <Descr>
+          <Markup content={description} />
+        </Descr>
       </AttrContainer>
     );
   }
@@ -102,6 +106,7 @@ const AddCart = styled.button`
   font-size: 16px;
   font-family: "Raleway", sans-serif;
 `;
+
 const Descr = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;

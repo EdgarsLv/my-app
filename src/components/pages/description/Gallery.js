@@ -23,11 +23,10 @@ class Gallery extends Component {
     return (
       <Container>
         <SmallImage>{images}</SmallImage>
-        <LargeImage>
+        <LargeImage image={this.state.image}>
           <Stock>
             <p>{inStock ? "" : "OUT OF STOCK"}</p>
           </Stock>
-          <Img style={{ cursor: "default" }} src={this.state.image} alt="pic" />
         </LargeImage>
       </Container>
     );
@@ -50,6 +49,9 @@ const LargeImage = styled.div`
   width: 610px;
   height: 513px;
   position: relative;
+  background: url(${({ image }) => image});
+  background-position: center;
+  background-size: cover;
 `;
 const Image = styled.div`
   width: 80px;

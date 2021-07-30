@@ -28,7 +28,6 @@ const HeaderContent = styled.header`
   display: flex;
   justify-content: space-between;
   z-index: 1;
-  background: white;
 `;
 const Logo = styled.i`
   color: var(--accent-color);

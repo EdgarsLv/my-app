@@ -30,12 +30,15 @@ export default connect((state) => ({
 }))(Cart);
 
 const Container = styled.div`
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 15px;
   cursor: pointer;
+  z-index: 5;
 
   div {
     position: absolute;
-    top: -12px;
+    top: -10px;
     right: -12px;
     width: 20px;
     height: 20px;

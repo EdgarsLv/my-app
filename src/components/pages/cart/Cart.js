@@ -3,11 +3,6 @@ import styled from "styled-components";
 import CartItem from "./CartItem";
 import { setCurrencySign } from "../../functions/Functions";
 import { connect } from "react-redux";
-import {
-  countDecrease,
-  removeFromCart,
-  countIncrease,
-} from "../../../actions/cartActions";
 
 class Cart extends Component {
   render() {
@@ -22,9 +17,6 @@ class Cart extends Component {
           images={item.gallery}
           product={item}
           attributes={item.attributes}
-          removeFromCart={this.props.removeFromCart}
-          countIncrease={this.props.countIncrease}
-          countDecrease={this.props.countDecrease}
         />
       );
     });
@@ -40,17 +32,10 @@ class Cart extends Component {
   }
 }
 
-export default connect(
-  (state) => ({
-    cartItems: state.cart.cartItems,
-    value: state.value.value,
-  }),
-  {
-    removeFromCart,
-    countIncrease,
-    countDecrease,
-  }
-)(Cart);
+export default connect((state) => ({
+  cartItems: state.cart.cartItems,
+  value: state.value.value,
+}))(Cart);
 
 const Container = styled.div`
   min-height: calc(100vh - 160px);
