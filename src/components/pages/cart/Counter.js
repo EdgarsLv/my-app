@@ -15,24 +15,15 @@ class Counter extends Component {
       this.props;
     return (
       <Count>
-        <div
-          style={{ cursor: "pointer" }}
-          onClick={() => countIncrease(product)}
-        >
+        <div onClick={() => countIncrease(product)}>
           <AiOutlinePlus />
         </div>
-        <div style={{ border: "none" }}>{count}</div>
-        <div style={{ cursor: "pointer" }}>
+        <div>{count}</div>
+        <div>
           {count > 1 ? (
-            <AiOutlineMinus
-              style={{ padding: "10px", boxSizing: "content-box" }}
-              onClick={() => countDecrease(product)}
-            />
+            <AiOutlineMinus onClick={() => countDecrease(product)} />
           ) : (
-            <MdDelete
-              style={{ padding: "10px", boxSizing: "content-box" }}
-              onClick={() => removeFromCart(product)}
-            />
+            <MdDelete onClick={() => removeFromCart(product)} />
           )}
         </div>
       </Count>
@@ -60,5 +51,16 @@ const Count = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 20px;
+    cursor: pointer;
+    :nth-of-type(2) {
+      border: none;
+      cursor: inherit;
+    }
+    :nth-of-type(3) {
+      svg {
+        padding: 10px;
+        box-sizing: content-box;
+      }
+    }
   }
 `;

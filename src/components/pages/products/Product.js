@@ -10,6 +10,7 @@ class Product extends Component {
   state = {
     times: 0,
   };
+
   handleTooltip = (x) => {
     this.setState(() => (x.inCart = true));
 

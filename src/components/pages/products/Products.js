@@ -4,8 +4,13 @@ import Spinner from "../../layout/Ui/Spinner/Spinner";
 import Product from "./Product";
 import { fetchProducts } from "./../../../actions/productActions";
 import { connect } from "react-redux";
+import Pagination from "./Pagination";
 
 class Products extends Component {
+  state = {
+    currentPage: 1,
+    productsPerPage: 6,
+  };
   componentDidMount() {
     this.props.fetchProducts(this.props.product);
   }
@@ -19,14 +24,37 @@ class Products extends Component {
     if (!this.props.products) return <Spinner />;
 
     const { name, products } = this.props.products.data.category;
+    const { currentPage, productsPerPage } = this.state;
 
+    const lastProduct = currentPage * productsPerPage;
+    const firstProduct = lastProduct - productsPerPage;
+    const currentProducts = products.slice(firstProduct, lastProduct);
+
+    const paginate = (pageNumber) => {
+      this.setState({ currentPage: pageNumber });
+    };
     return (
-      <Container>
-        <Title>
-          <h2>{name}</h2>
-        </Title>
-        <Product value={this.props.value} products={products} category={name} />
-      </Container>
+      <>
+        <Container>
+          <Title>
+            <h2>{name}</h2>
+          </Title>
+          <Product
+            value={this.props.value}
+            products={
+              products.length > productsPerPage ? currentProducts : products
+            }
+            category={name}
+          />
+        </Container>
+        {products.length > productsPerPage && (
+          <Pagination
+            productsPerPage={productsPerPage}
+            totalProducts={products.length}
+            paginate={paginate}
+          />
+        )}
+      </>
     );
   }
 }
@@ -40,6 +68,7 @@ export default connect(
 
 const Container = styled.div`
   width: 100%;
+
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
