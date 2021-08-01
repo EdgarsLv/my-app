@@ -16,6 +16,7 @@ class Products extends Component {
   }
   componentDidUpdate(prevProps) {
     if (this.props.product !== prevProps.product) {
+      this.setState({ currentPage: 1 });
       this.props.fetchProducts(this.props.product);
     }
   }
@@ -41,9 +42,7 @@ class Products extends Component {
           </Title>
           <Product
             value={this.props.value}
-            products={
-              products.length > productsPerPage ? currentProducts : products
-            }
+            products={currentProducts}
             category={name}
           />
         </Container>
@@ -52,6 +51,7 @@ class Products extends Component {
             productsPerPage={productsPerPage}
             totalProducts={products.length}
             paginate={paginate}
+            currentPage={currentPage}
           />
         )}
       </>

@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 class Pagination extends Component {
   render() {
-    const { productsPerPage, totalProducts, paginate } = this.props;
+    const { productsPerPage, totalProducts, paginate, currentPage } =
+      this.props;
 
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
@@ -13,7 +14,11 @@ class Pagination extends Component {
     return (
       <Container>
         {pageNumbers.map((number) => (
-          <Button key={number} onClick={() => paginate(number)}>
+          <Button
+            selected={currentPage === number}
+            key={number}
+            onClick={() => paginate(number)}
+          >
             {number}
           </Button>
         ))}
@@ -37,9 +42,10 @@ const Container = styled.nav`
 const Button = styled.button`
   padding: 10px;
   font-weight: 600;
-  background: white;
+  background: ${({ selected }) => (selected ? "black" : "white")};
+  color: ${({ selected }) => (selected ? "white" : "black")};
   outline: none;
   margin: 1px;
   cursor: pointer;
-  border: 1px solid var(--accent-color);
+  border: 1px solid black;
 `;

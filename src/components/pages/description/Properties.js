@@ -13,7 +13,9 @@ class Properties extends Component {
             {items.map((item, j) => (
               <Size
                 key={j}
-                onClick={() => selectAttributes(item, i)}
+                onClick={() => {
+                  selectAttributes(item, i);
+                }}
                 color={item.value}
                 select={this.props.selected[i] === item.value}
               >
