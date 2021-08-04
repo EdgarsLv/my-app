@@ -5,14 +5,7 @@ import { NavLink } from "react-router-dom";
 const NavItem = (props) => {
   return (
     <li>
-      <Link
-        to={props.to}
-        exact
-        activeStyle={{
-          color: "var(--accent-color)",
-          borderBottom: "2px solid var(--accent-color)",
-        }}
-      >
+      <Link to={props.to} exact>
         {props.name}
       </Link>
     </li>

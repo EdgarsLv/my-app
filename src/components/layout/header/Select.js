@@ -6,27 +6,46 @@ import { setCurrencyValue } from "./../../../actions/currValueActions";
 import { fetchCurrencies } from "./../../../actions/currencyActions";
 
 class Select extends Component {
+  state = {
+    selection: "USD",
+    visible: false,
+  };
+
   componentDidMount() {
     this.props.fetchCurrencies();
   }
+  setVisible = () => {
+    this.setState((state) => {
+      return { visible: !state.visible };
+    });
+  };
+
   render() {
     if (!this.props.currencies) return <p>loading...</p>;
 
     const { currencies } = this.props.currencies.data;
 
-    const options = currencies.map((el, i) => {
+    const currency = currencies.map((el, i) => {
       return (
-        <option key={i} value={i}>
+        <Cur
+          key={i}
+          onClick={() => {
+            this.setState({ selection: el });
+            this.props.setCurrencyValue(i);
+            this.setVisible();
+          }}
+        >
           {setCurrencySign(el)} {el}
-        </option>
+        </Cur>
       );
     });
 
     return (
       <Container>
-        <Sel onChange={(e) => this.props.setCurrencyValue(e.target.value)}>
-          {options}
-        </Sel>
+        <Sign visible={this.state.visible} onClick={() => this.setVisible()}>
+          {setCurrencySign(this.state.selection)}
+        </Sign>
+        <Switcher visible={this.state.visible}>{currency}</Switcher>
       </Container>
     );
   }
@@ -44,43 +63,46 @@ export default connect(
 
 const Container = styled.div`
   position: absolute;
-  bottom: 38px;
-  right: -10px;
-  ::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 10px;
-    width: 50px;
-    height: 21px;
-    background: white;
-    z-index: 1;
+  bottom: 0;
+  left: 0;
+`;
+
+const Switcher = styled.div`
+  position: absolute;
+  display: ${({ visible }) => (visible ? "block" : "none")};
+  top: -8px;
+  left: 20px;
+  width: 116px;
+  box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
+`;
+const Cur = styled.div`
+  padding: 10px 40px 10px 20px;
+  font-size: 18px;
+  line-height: 28.8px;
+  font-weight: 600;
+  cursor: pointer;
+
+  :nth-child(1) {
+    padding-top: 20px;
   }
-  ::after {
-    content: "v";
-    position: absolute;
-    top: 5px;
-    right: 50px;
-    font-size: 12px;
-    z-index: 1;
+  :nth-last-child(1) {
+    padding-bottom: 20px;
   }
 `;
-const Sel = styled.select`
+const Sign = styled.div`
   position: absolute;
-  right: -40px;
-  border: none;
-  appearance: none;
-  outline: none;
-  box-shadow: none;
-  padding: 0px 28px 0 20px;
-  cursor: pointer;
+  top: -40px;
+  left: 40px;
+  font-weight: 600;
   font-size: 18px;
-  margin-right: 30px;
-  :focus {
-    outline: none;
-  }
+  cursor: pointer;
 
-  option {
-    font-size: 18px;
+  ::after {
+    content: ${({ visible }) => (visible ? '"ᐱ"' : '"ᐯ"')};
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    padding: 0 10px;
+    font-size: 10px;
   }
 `;

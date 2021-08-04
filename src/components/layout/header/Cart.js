@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 class Cart extends Component {
   render() {
-    const { cartItems } = this.props;
+    const { cartItems, openMiniCart } = this.props;
 
     let cartQuantity = 0;
     cartItems.forEach((el) => {
@@ -13,8 +13,8 @@ class Cart extends Component {
     });
 
     return (
-      <Container onClick={() => this.props.openMiniCart()}>
-        <FiShoppingCart style={{ fontSize: "20px" }} />
+      <Container onClick={() => openMiniCart()}>
+        <FiShoppingCart />
         {cartItems.length > 0 && (
           <div>
             <p>{cartQuantity}</p>
@@ -35,6 +35,9 @@ const Container = styled.div`
   bottom: 15px;
   cursor: pointer;
   z-index: 5;
+  svg {
+    font-size: 20px;
+  }
 
   div {
     position: absolute;

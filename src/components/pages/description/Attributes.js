@@ -26,8 +26,7 @@ class Attributes extends Component {
       this.setState({ valid: true });
     }
 
-    this.setState({ selected: selected });
-    this.setState({ product: product });
+    this.setState({ selected: selected, product: product });
   };
 
   addProductToCart = () => {
