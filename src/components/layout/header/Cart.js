@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { connect } from "react-redux";
+import { showOverlay } from "./../../../actions/overlayActions";
 
 class Cart extends Component {
   render() {
-    const { cartItems, openMiniCart } = this.props;
+    const { cartItems, showOverlay } = this.props;
 
     let cartQuantity = 0;
     cartItems.forEach((el) => {
@@ -13,7 +14,7 @@ class Cart extends Component {
     });
 
     return (
-      <Container onClick={() => openMiniCart()}>
+      <Container onClick={() => showOverlay()}>
         <FiShoppingCart />
         {cartItems.length > 0 && (
           <div>
@@ -25,9 +26,14 @@ class Cart extends Component {
   }
 }
 
-export default connect((state) => ({
-  cartItems: state.cart.cartItems,
-}))(Cart);
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+  }),
+  {
+    showOverlay,
+  }
+)(Cart);
 
 const Container = styled.div`
   position: absolute;

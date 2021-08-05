@@ -12,7 +12,7 @@ class Header extends Component {
         <Logo>
           <RiShoppingBag2Fill />
         </Logo>
-        <Actions openMinicart={this.props.openMinicart} />
+        <Actions />
       </HeaderContent>
     );
   }

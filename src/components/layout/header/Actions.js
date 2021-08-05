@@ -8,7 +8,7 @@ class Actions extends Component {
     return (
       <Container>
         <Select />
-        <Cart openMiniCart={this.props.openMinicart} />
+        <Cart />
       </Container>
     );
   }

@@ -1,20 +1,17 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Items from "./Items";
 import TotalSum from "./TotalSum";
+import { showOverlay } from "./../../../../actions/overlayActions";
 
 class MiniCart extends Component {
   render() {
-    const { cartItems, value } = this.props;
+    const { cartItems, value, show, showOverlay } = this.props;
 
     return (
-      <MiniCartOverlay
-        onClick={() => this.props.openMinicart()}
-        open={this.props.open}
-      >
+      <MiniCartOverlay onClick={() => showOverlay()} show={show}>
         <MinCart onClick={(e) => e.stopPropagation()}>
           <BagTitle>
             <span>My Bag,</span> <span> {cartItems.length} items</span>
@@ -24,7 +21,7 @@ class MiniCart extends Component {
           <TotalSum cartItems={cartItems} value={value} />
 
           <ButtonsContainer>
-            <Link onClick={() => this.props.openMinicart()} to="/cart">
+            <Link onClick={() => showOverlay()} to="/cart">
               view bag
             </Link>
             <Link to="/cart">checkout</Link>
@@ -35,10 +32,14 @@ class MiniCart extends Component {
   }
 }
 
-export default connect((state) => ({
-  cartItems: state.cart.cartItems,
-  value: state.value.value,
-}))(MiniCart);
+export default connect(
+  (state) => ({
+    cartItems: state.cart.cartItems,
+    value: state.value.value,
+    show: state.show.show,
+  }),
+  { showOverlay }
+)(MiniCart);
 
 const MiniCartOverlay = styled.div`
   position: absolute;
@@ -48,7 +49,7 @@ const MiniCartOverlay = styled.div`
   width: 100%;
   background: rgba(57, 55, 72, 0.22);
   z-index: 2;
-  display: ${({ open }) => (!open ? "none" : "block")};
+  display: ${({ show }) => (!show ? "none" : "block")};
 `;
 const MinCart = styled.div`
   position: absolute;

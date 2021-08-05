@@ -4,10 +4,9 @@ import MiniCart from "../../pages/cart/miniCart/MiniCart";
 
 class Main extends Component {
   render() {
-    const { open, openMinicart } = this.props;
     return (
       <MainLayout>
-        <MiniCart open={open} openMinicart={openMinicart} />
+        <MiniCart />
         {this.props.children}
       </MainLayout>
     );

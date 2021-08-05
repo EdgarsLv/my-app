@@ -7,7 +7,7 @@ import {
 
 export const cartReducer = (
   state = { cartItems: JSON.parse(localStorage.getItem("cartItems") || "[]") },
-  // state = { cartItems: [] },
+
   action
 ) => {
   switch (action.type) {

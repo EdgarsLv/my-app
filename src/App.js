@@ -8,20 +8,10 @@ import Cart from "./components/pages/cart/Cart";
 import Products from "./components/pages/products/Products";
 
 class App extends Component {
-  state = {
-    show: false,
-  };
-
-  openMinicart = () => {
-    this.setState((state) => {
-      return { show: !state.show };
-    });
-  };
-
   render() {
     return (
-      <Main open={this.state.show} openMinicart={this.openMinicart}>
-        <Header openMinicart={this.openMinicart} />
+      <Main>
+        <Header />
         <Switch>
           <Route path="/" exact render={() => <Products product="" />} />
           <Route

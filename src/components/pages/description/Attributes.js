@@ -33,6 +33,9 @@ class Attributes extends Component {
     if (this.state.valid) {
       this.props.addToCart(this.state.product);
       alert(`${this.state.product.name} added to cart!`);
+    } else if (this.state.product.attributes.length === 0) {
+      this.props.addToCart(this.state.product);
+      alert(`${this.state.product.name} added to cart!`);
     } else {
       alert("Select all attributes!");
     }
