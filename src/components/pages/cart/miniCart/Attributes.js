@@ -3,15 +3,18 @@ import styled from "styled-components";
 
 class Attributes extends Component {
   render() {
-    const selected = this.props.attributes.map((el, i) => {
+    const { attributes } = this.props;
+
+    const selected = attributes.map((el, i) => {
       return (
         <Selected key={i}>
+          <Name>{el.name}</Name>
           <div
             style={
-              el.name === "Color" ? { background: `${el.items[0].value}` } : {}
+              el.type === "swatch" ? { background: `${el.items[0].value}` } : {}
             }
           >
-            {el.name === "Color" ? "" : el.items[0].value}
+            {el.type === "swatch" ? "" : el.items[0].value}
           </div>
         </Selected>
       );
@@ -27,23 +30,16 @@ const Choice = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  margin-top: 32px;
+  margin-top: 6px;
 `;
 const Selected = styled.div`
   margin-right: 5px;
 
-  p {
-    font-size: 10px;
-    font-weight: 600;
-    line-height: 5px;
-  }
   div {
     display: flex;
     font-size: 14px;
     text-transform: uppercase;
-
     min-width: 24px;
-
     padding: 0 5px;
     height: 24px;
     border: 1px solid black;
@@ -52,4 +48,10 @@ const Selected = styled.div`
     align-items: center;
     font-family: "Source Sans Pro", sans-serif;
   }
+`;
+const Name = styled.p`
+  font-size: 10px;
+  border: 1px solid black;
+  text-align: center;
+  padding: 1px 5px;
 `;

@@ -15,9 +15,11 @@ class Select extends Component {
     this.props.fetchCurrencies();
   }
   setVisible = () => {
-    this.setState((state) => {
-      return { visible: !state.visible };
-    });
+    if (!this.props.show) {
+      this.setState((state) => {
+        return { visible: !state.visible };
+      });
+    }
   };
 
   render() {
@@ -39,13 +41,13 @@ class Select extends Component {
         </Cur>
       );
     });
-
+    const { selection, visible } = this.state;
     return (
       <Container>
-        <Sign visible={this.state.visible} onClick={() => this.setVisible()}>
-          {setCurrencySign(this.state.selection)}
+        <Sign visible={visible} onClick={() => this.setVisible()}>
+          {setCurrencySign(selection)}
         </Sign>
-        <Switcher visible={this.state.visible}>{currency}</Switcher>
+        <Switcher visible={visible}>{currency}</Switcher>
       </Container>
     );
   }
@@ -54,6 +56,7 @@ class Select extends Component {
 export default connect(
   (state) => ({
     currencies: state.currencies.currencies,
+    show: state.show.show,
   }),
   {
     fetchCurrencies,

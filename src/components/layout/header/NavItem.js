@@ -1,16 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
-const NavItem = (props) => {
-  return (
-    <li>
-      <Link to={props.to} exact>
-        {props.name}
-      </Link>
-    </li>
-  );
-};
+class NavItem extends Component {
+  render() {
+    const { to, name } = this.props;
+    return (
+      <li>
+        <Link to={to} exact>
+          {name}
+        </Link>
+      </li>
+    );
+  }
+}
 
 export default NavItem;
 

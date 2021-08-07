@@ -56,7 +56,7 @@ class Product extends Component {
               state: { data: products[i] },
             }}
           >
-            <Img src={gallery[0]} alt={name} />
+            <Img image={gallery[0]} />
           </Link>
           <Stock>{inStock ? "" : "out of stock"}</Stock>
           <Info
@@ -85,9 +85,12 @@ const Card = styled.div`
     box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
   }
 `;
-const Img = styled.img`
+const Img = styled.div`
   width: 354px;
   height: 330px;
+  background: url(${({ image }) => image});
+  background-position: center;
+  background-size: cover;
 `;
 
 const Stock = styled.p`

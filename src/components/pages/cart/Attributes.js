@@ -13,10 +13,10 @@ class Attributes extends Component {
           </div>
           <Selected
             style={
-              el.name === "Color" ? { background: `${el.items[0].value}` } : {}
+              el.type === "swatch" ? { background: `${el.items[0].value}` } : {}
             }
           >
-            {el.name === "Color" ? "" : el.items[0].value}
+            {el.type === "swatch" ? "" : el.items[0].value}
           </Selected>
         </Choice>
       );

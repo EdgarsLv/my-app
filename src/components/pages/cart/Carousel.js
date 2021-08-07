@@ -33,12 +33,12 @@ class Carousel extends Component {
           </button>
         )}
 
-        <img src={images[this.state.index]} alt={name} />
         {images.length > 1 && (
           <button className="btn-next" onClick={() => this.nextImage()}>
             {">"}
           </button>
         )}
+        <Img image={images[this.state.index]} alt={name} />
       </Image>
     );
   }
@@ -49,9 +49,12 @@ export default Carousel;
 const Image = styled.div`
   width: 250px;
   position: relative;
+`;
+const Img = styled.div`
+  background: url(${({ image }) => image});
+  background-size: cover;
+  background-position: center;
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
+  width: 100%;
+  height: 100%;
 `;

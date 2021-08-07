@@ -1,16 +1,18 @@
-import React from "react";
+import React, { Component } from "react";
 import styled from "styled-components";
 import NavItem from "./NavItem";
 
-const Navigation = () => {
-  return (
-    <Nav>
-      <NavItem to="/" name="all" />
-      <NavItem to="/tech" name="tech" />
-      <NavItem to="/clothes" name="clothes" />
-    </Nav>
-  );
-};
+class Navigation extends Component {
+  render() {
+    return (
+      <Nav>
+        <NavItem to="/" name="all" />
+        <NavItem to="/tech" name="tech" />
+        <NavItem to="/clothes" name="clothes" />
+      </Nav>
+    );
+  }
+}
 
 export default Navigation;
 

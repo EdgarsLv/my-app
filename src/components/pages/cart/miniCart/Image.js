@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 class Image extends Component {
   render() {
+    const { image, alt } = this.props;
     return (
       <Container>
-        <img src={this.props.image} alt={this.props.alt} />
+        <Img image={image} src={image} alt={alt} />
       </Container>
     );
   }
@@ -16,8 +17,11 @@ export default Image;
 const Container = styled.div`
   width: 105px;
   height: 137px;
-  img {
-    width: 105px;
-    height: 100%;
-  }
+`;
+const Img = styled.div`
+  background: url(${({ image }) => image});
+  width: 105px;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
 `;
