@@ -5,6 +5,7 @@ import { addToCart } from "./../../../actions/cartActions";
 import Properties from "./Properties";
 import Price from "./Price";
 import { Markup } from "interweave";
+import { addProductToCart } from "./Methods";
 
 class Attributes extends Component {
   state = {
@@ -29,20 +30,8 @@ class Attributes extends Component {
     this.setState({ selected: selected, product: product });
   };
 
-  addProductToCart = () => {
-    if (this.state.valid) {
-      this.props.addToCart(this.state.product);
-      alert(`${this.state.product.name} added to cart!`);
-    } else if (this.state.product.attributes.length === 0) {
-      this.props.addToCart(this.state.product);
-      alert(`${this.state.product.name} added to cart!`);
-    } else {
-      alert("Select all attributes!");
-    }
-  };
-
   render() {
-    const { product } = this.props;
+    const { product, addToCart } = this.props;
     const { description, attributes, inStock, name, prices } = product;
 
     return (
@@ -56,7 +45,12 @@ class Attributes extends Component {
         />
 
         <Price prices={prices} value={this.props.value} />
-        <AddCart onClick={() => this.addProductToCart()} inStock={inStock}>
+        <AddCart
+          onClick={() =>
+            addProductToCart(this.state.valid, this.state.product, addToCart)
+          }
+          inStock={inStock}
+        >
           ADD TO CART
         </AddCart>
 

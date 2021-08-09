@@ -7,38 +7,37 @@ class Carousel extends Component {
     index: 0,
   };
 
-  prevImage = () => {
-    if (this.state.index === this.state.length - 1) {
-      this.setState({ index: 0 });
+  nextImage = () => {
+    const { index, length } = this.state;
+    if (index === 0) {
+      this.setState({ index: length - 1 });
     } else {
-      this.setState({ index: this.state.index + 1 });
+      this.setState({ index: index - 1 });
     }
   };
 
-  nextImage = () => {
-    if (this.state.index === 0) {
-      this.setState({ index: this.state.length - 1 });
+  prevImage = () => {
+    const { index, length } = this.state;
+    if (index === length - 1) {
+      this.setState({ index: 0 });
     } else {
-      this.setState({ index: this.state.index - 1 });
+      this.setState({ index: index + 1 });
     }
   };
 
   render() {
     const { images, name } = this.props;
+    const { index } = this.state;
+
     return (
       <Image>
         {images.length > 1 && (
-          <button className="btn-prev" onClick={() => this.prevImage()}>
-            {"<"}
-          </button>
+          <ButtonPrev onClick={() => this.prevImage()}>{"<"}</ButtonPrev>
         )}
-
         {images.length > 1 && (
-          <button className="btn-next" onClick={() => this.nextImage()}>
-            {">"}
-          </button>
+          <ButtonNext onClick={() => this.nextImage()}>{">"}</ButtonNext>
         )}
-        <Img image={images[this.state.index]} alt={name} />
+        <Img image={images[index]} alt={name} />
       </Image>
     );
   }
@@ -54,7 +53,30 @@ const Img = styled.div`
   background: url(${({ image }) => image});
   background-size: cover;
   background-position: center;
-
   width: 100%;
   height: 100%;
+`;
+const ButtonPrev = styled.button`
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--accent-color);
+`;
+const ButtonNext = styled.button`
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--accent-color);
 `;

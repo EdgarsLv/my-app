@@ -22,6 +22,7 @@ class CartItem extends Component {
           <Attributes attributes={attributes} />
         </Item>
         <Counter count={count} product={product} />
+
         <Carousel images={images} name={name} />
       </CartContainer>
     );
